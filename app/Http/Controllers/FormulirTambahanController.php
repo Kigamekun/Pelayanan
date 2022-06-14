@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
 use Illuminate\Support\Facades\{
     Hash,
     Auth,
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\{
     Response
 };
 
-class AktaController extends Controller
+class FormulirTambahanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,8 +21,8 @@ class AktaController extends Controller
      */
     public function index()
     {
-        return view('admin.akta', [
-            'data' => DB::table('akta')->get()
+        return view('admin.formulirtambahan', [
+            'data' => DB::table('formulirtambahan')->get()
         ]);
     }
 
@@ -38,7 +37,6 @@ class AktaController extends Controller
 
 
         $this->validate($request, [
-            'nama' => 'required',
             'formulir' => 'required',
         ]);
 
@@ -46,10 +44,8 @@ class AktaController extends Controller
         if ($request->hasFile('formulir')) {
             $file = $request->file('formulir');
             $thumbname = time() . '-' . $file->getClientOriginalName();
-            $file->move(public_path() . '/akta' . '/', $thumbname);
-            DB::table('akta')->insert([
-                'nama' => $request->nama,
-                'syarat' => $request->syarat,
+            $file->move(public_path() . '/formulirtambahan' . '/', $thumbname);
+            DB::table('formulirtambahan')->insert([
                 'formulir' => $thumbname,
             ]);
         }
@@ -73,17 +69,9 @@ class AktaController extends Controller
         if ($request->hasFile('formulir')) {
             $file = $request->file('formulir');
             $thumbname = time() . '-' . $file->getClientOriginalName();
-            $file->move(public_path() . '/akta' . '/', $thumbname);
-            DB::table('akta')->where('id',$id)->update([
-                'nama' => $request->nama,
-                'syarat' => $request->syarat,
+            $file->move(public_path() . '/formulirtambahan' . '/', $thumbname);
+            DB::table('formulirtambahan')->where('id',$id)->update([
                 'formulir' => $thumbname,
-            ]);
-        }else {
-            DB::table('akta')->where('id',$id)->update([
-                'nama' => $request->nama,
-                'syarat' => $request->syarat,
-
             ]);
         }
 
@@ -101,16 +89,17 @@ class AktaController extends Controller
     public function destroy($id)
     {
 
-        DB::table('akta')->where('id',$id)->delete();
-        return redirect()->route('admin.akta.index')->with(['message'=>'Banner berhasil di delete','status'=>'success']);
+        DB::table('formulirtambahan')->where('id',$id)->delete();
+        return redirect()->route('admin.formulirtambahan.index')->with(['message'=>'Banner berhasil di delete','status'=>'success']);
     }
 
     public function download($id)
     {
 
-        $file = public_path() . "/akta/".DB::table('akta')->where('id',$id)->first()->formulir;
+        $file = public_path() . "/formulirtambahan/".DB::table('formulirtambahan')->where('id',$id)->first()->formulir;
         $headers = array('Content-Type: text/html',);
 
         return Response::download($file, 'formulir', $headers);
     }
+
 }

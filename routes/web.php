@@ -1,7 +1,7 @@
     <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AktaController,KkController,EKtpController};
+use App\Http\Controllers\{AktaController,KkController,EKtpController,PindahDatangController,FormulirTambahanController};
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +51,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [EKtpController::class,'edit'])->name('ektp.edit');
         Route::post('/update/{id}', [EKtpController::class,'update'])->name('ektp.update');
         Route::get('/delete/{id}', [EKtpController::class,'destroy'])->name('ektp.delete');
+    });
+
+    Route::prefix('pindahdatang')->group(function () {
+        Route::get('/download/{id}', [PindahDatangController::class,'download'])->name('pindahdatang.download');
+        Route::get('/', [PindahDatangController::class,'index'])->name('pindahdatang.index');
+        Route::get('/create', [PindahDatangController::class,'create'])->name('pindahdatang.create');
+        Route::post('/store', [PindahDatangController::class,'store'])->name('pindahdatang.store');
+        Route::get('/edit/{id}', [PindahDatangController::class,'edit'])->name('pindahdatang.edit');
+        Route::post('/update/{id}', [PindahDatangController::class,'update'])->name('pindahdatang.update');
+        Route::get('/delete/{id}', [PindahDatangController::class,'destroy'])->name('pindahdatang.delete');
+    });
+
+    Route::prefix('formulirtambahan')->group(function () {
+        Route::get('/download/{id}', [FormulirTambahanController::class,'download'])->name('formulirtambahan.download');
+        Route::get('/', [FormulirTambahanController::class,'index'])->name('formulirtambahan.index');
+        Route::get('/create', [FormulirTambahanController::class,'create'])->name('formulirtambahan.create');
+        Route::post('/store', [FormulirTambahanController::class,'store'])->name('formulirtambahan.store');
+        Route::get('/edit/{id}', [FormulirTambahanController::class,'edit'])->name('formulirtambahan.edit');
+        Route::post('/update/{id}', [FormulirTambahanController::class,'update'])->name('formulirtambahan.update');
+        Route::get('/delete/{id}', [FormulirTambahanController::class,'destroy'])->name('formulirtambahan.delete');
     });
 
 });

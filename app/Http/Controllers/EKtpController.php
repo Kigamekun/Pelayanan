@@ -30,13 +30,15 @@ class EKtpController extends Controller
 
 
         $this->validate($request, [
-            'nik' => 'required',
+            'nama' => 'required',
             'identitas' => 'required',
+            'syarat' => 'required',
         ]);
 
         DB::table('ektp')->insert([
-            'nik' => $request->nik,
+            'nama' => $request->nama,
             'identitas' => $request->identitas,
+            'syarat' => $request->syarat,
         ]);
 
         return redirect()->back()->with(['message'=>'Banner berhasil ditambahkan','status'=>'success']);
@@ -55,8 +57,9 @@ class EKtpController extends Controller
 
 
         DB::table('ektp')->where('id',$id)->update([
-            'nik' => $request->nik,
+            'nama' => $request->nama,
             'identitas' => $request->identitas,
+            'syarat' => $request->syarat,
         ]);
 
 

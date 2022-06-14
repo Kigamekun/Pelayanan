@@ -1,14 +1,14 @@
 @extends('layouts.base')
 
 @section('css')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
-integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog=="
-crossorigin="anonymous" referrerpolicy="no-referrer">
-<style>
-    .dropify-wrapper .dropify-message p {
-        font-size: 14px;
-    }
-</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
+        integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+        .dropify-wrapper .dropify-message p {
+            font-size: 14px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -23,13 +23,13 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
         <div class="row">
             <div class="d-flex justify-content-end">
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createData">
-                    Create KK
+                    Create Pindah Datang
                 </button>
             </div>
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>KK table</h6>
+                        <h6>Pindah Datang table</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -38,15 +38,17 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Nama</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Syarat</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Syarat</th>
+                                            Formulir</th>
                                         <th class="text-secondary opacity-7">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
-                                        <tr >
+                                        <tr>
                                             <td class="align-middle ">
                                                 <span
                                                     class="text-secondary text-xs ms-3 font-weight-bold">
@@ -62,16 +64,28 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $item->syarat }}</span>
                                             </td>
+                                            <td class="align-middle">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $item->formulir }}</span>
+                                            </td>
                                             <td style="width: 20%">
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#updateData" data-id="{{ $item->id }}"
-                                                    data-nama="{{  $item->nama }}"
-                                                    data-syarat="{{  $item->syarat }}"
-                                                    data-url="{{ route('admin.kk.update', ['id' => $item->id]) }}">
-                                                    Update
-                                                </button>
-                                                <a class="btn btn-danger"
-                                                    href="{{ route('admin.kk.delete', ['id' => $item->id]) }}">Hapus</a>
+
+                                                <a class="btn btn-warning"
+                                                    href="{{ route('admin.pindahdatang.download', ['id' => $item->id]) }}">Download</a>
+                                                @if (Auth::check())
+                                                    @if (Auth::user()->role == 0)
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                            data-bs-target="#updateData" data-id="{{ $item->id }}"
+                                                            data-formulir="{{ url('pindahdatang/' . $item->formulir) }}"
+                                                            data-nama="{{ $item->nama }}"
+                                                            data-syarat="{{ $item->syarat }}"
+                                                            data-url="{{ route('admin.pindahdatang.update', ['id' => $item->id]) }}">
+                                                            Update
+                                                        </button>
+                                                        <a class="btn btn-danger"
+                                                            href="{{ route('admin.pindahdatang.delete', ['id' => $item->id]) }}">Hapus</a>
+                                                    @endif
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -84,20 +98,6 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
         </div>
     </div>
 
-
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="syarat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="syaratLabel" aria-hidden="true">
-        <div class="modal-dialog" id="updateDialog">
-            <div id="modal-content-syarat" class="modal-content">
-                <div class="modal-body">
-                    Loading..
-                </div>
-            </div>
-        </div>
-    </div>
 
 
     <!-- Modal -->
@@ -114,27 +114,43 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
 
 
     <!-- Modal -->
+    <div class="modal fade" id="syarat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="syaratLabel" aria-hidden="true">
+        <div class="modal-dialog" id="updateDialog">
+            <div id="modal-content-syarat" class="modal-content">
+                <div class="modal-body">
+                    Loading..
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
     <div class="modal fade" id="createData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="createDataLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div id="modal-content" class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Create KK</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Create Pindah Datang</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('admin.kk.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('admin.pindahdatang.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="nama" class="form-label">nama</label>
                             <input type="text" class="form-control" id="nama" name="nama" placeholder="isi nama">
                         </div>
-
                         <div class="mb-3">
                             <label for="syarat" class="form-label">syarat</label>
                             <input type="text" class="form-control" id="syarat" name="syarat" placeholder="isi syarat">
                         </div>
-
+                        <div class="mb-3">
+                            <label for="formulir" class="form-label">formulir</label>
+                            <input type="file" class="form-control dropify" id="formulir" name="formulir"
+                                placeholder="isi formulir">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -172,12 +188,15 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
                     <div class="mb-3">
                                 <label for="nama" class="form-label">nama</label>
                                 <input type="text" class="form-control" id="nama" name="nama" placeholder="isi nama" value="${$(e.relatedTarget).data('nama')}">
-                    </div>
-                    <div class="mb-3">
+                            </div>
+                            <div class="mb-3">
                                 <label for="syarat" class="form-label">syarat</label>
                                 <input type="text" class="form-control" id="syarat" name="syarat" placeholder="isi syarat" value="${$(e.relatedTarget).data('syarat')}">
                             </div>
-
+                    <div class="mb-3">
+                            <label for="formulir" class="form-label">formulir</label>
+                            <input type="file" class="form-control dropify" data-default-file="${$(e.relatedTarget).data('formulir')}" id="formulir" name="formulir" placeholder="isi formulir">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -189,7 +208,6 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
             $('.dropify').dropify();
 
         });
-
         $('#syarat').on('shown.bs.modal', function(e) {
             var html = `
             <div class="modal-header">
@@ -205,5 +223,4 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
 
         });
     </script>
-
 @endsection

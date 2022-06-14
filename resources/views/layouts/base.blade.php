@@ -84,7 +84,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " href="">
+                    <a class="nav-link " href="{{ route('admin.pindahdatang.index') }}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
 
@@ -93,7 +93,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="">
+                    <a class="nav-link " href="{{ route('admin.formulirtambahan.index') }}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
 
@@ -105,8 +105,8 @@
                 <li class="nav-item">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                 <center>  <button class="btn btn-danger" type="submit">LOGOUT</button></center>
-                </form>
+                        <center> <button class="btn btn-danger" type="submit">LOGOUT</button></center>
+                    </form>
                 </li>
 
             </ul>
@@ -242,6 +242,7 @@
                 </div>
             </div>
         </nav>
+
         <!-- End Navbar -->
         @yield('content')
     </main>
@@ -265,7 +266,8 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/argon-dashboard.min.js?v=2.0.3"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
     @yield('js')
 </body>
 

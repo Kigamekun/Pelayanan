@@ -13,16 +13,23 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
 
 @section('content')
     <div class="container-fluid py-4">
+
+        @if (Session::has('message'))
+        <br>
+        <div class="alert alert-{{ session('status') }} text-white">
+            {{ session('message') }}
+        </div>
+    @endif
         <div class="row">
             <div class="d-flex justify-content-end">
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createData">
-                    Create Akta
+                    Create EKTP
                 </button>
             </div>
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>Akta table</h6>
+                        <h6>EKTP table</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -30,10 +37,12 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Nama</th>
+                                            NIK</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                IDENTITAS</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Formulir</th>
+                                            SYARAT</th>
                                         <th class="text-secondary opacity-7">Action</th>
                                     </tr>
                                 </thead>
@@ -42,26 +51,35 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
                                         <tr >
                                             <td class="align-middle ">
                                                 <span
-                                                    class="text-secondary text-xs ms-3 font-weight-bold">{{ $item->nama }}</span>
+                                                    class="text-secondary text-xs ms-3 font-weight-bold">
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#syarat"
+                                                    data-syarat="{{ $item->syarat }}">
+                                                    {{ $item->nama }}
+                                                </button>
+
+                                                </span>
+                                            </td>
+                                            <td class="align-middle ">
+                                                <span
+                                                    class="text-secondary text-xs ms-3 font-weight-bold">{{ $item->identitas }}</span>
                                             </td>
                                             <td class="align-middle">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $item->formulir }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $item->syarat }}</span>
                                             </td>
                                             <td style="width: 20%">
 
-                                                <a class="btn btn-warning"
-                                                    href="{{ route('admin.akta.download', ['id' => $item->id]) }}">Download</a>
-
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                                     data-bs-target="#updateData" data-id="{{ $item->id }}"
-                                                    data-formulir="{{ url('akta/' . $item->formulir) }}"
                                                     data-nama="{{  $item->nama }}"
-                                                    data-url="{{ route('admin.akta.update', ['id' => $item->id]) }}">
+                                                    data-identitas="{{  $item->identitas }}"
+                                                    data-syarat="{{  $item->syarat }}"
+                                                    data-url="{{ route('admin.ektp.update', ['id' => $item->id]) }}">
                                                     Update
                                                 </button>
                                                 <a class="btn btn-danger"
-                                                    href="{{ route('admin.akta.delete', ['id' => $item->id]) }}">Hapus</a>
+                                                    href="{{ route('admin.ektp.delete', ['id' => $item->id]) }}">Hapus</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -90,6 +108,18 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
 
 
     <!-- Modal -->
+    <div class="modal fade" id="syarat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="syaratLabel" aria-hidden="true">
+        <div class="modal-dialog" id="updateDialog">
+            <div id="modal-content-syarat" class="modal-content">
+                <div class="modal-body">
+                    Loading..
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
     <div class="modal fade" id="createData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="createDataLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -98,7 +128,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
                     <h5 class="modal-title" id="staticBackdropLabel">Create Banner</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('admin.akta.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('admin.ektp.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -106,10 +136,14 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
                             <input type="text" class="form-control" id="nama" name="nama" placeholder="isi nama">
                         </div>
                         <div class="mb-3">
-                            <label for="formulir" class="form-label">formulir</label>
-                            <input type="file" class="form-control dropify" id="formulir" name="formulir"
-                                placeholder="isi formulir">
+                            <label for="identitas" class="form-label">identitas</label>
+                            <input type="text" class="form-control" id="identitas" name="identitas" placeholder="isi identitas">
                         </div>
+                        <div class="mb-3">
+                            <label for="syarat" class="form-label">syarat</label>
+                            <input type="text" class="form-control" id="syarat" name="syarat" placeholder="isi syarat">
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -138,7 +172,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
         $('#updateData').on('shown.bs.modal', function(e) {
             var html = `
             <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Edit Banner</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Edit EKTP</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="${$(e.relatedTarget).data('url')}" method="post" enctype="multipart/form-data">
@@ -148,10 +182,15 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
                                 <label for="nama" class="form-label">nama</label>
                                 <input type="text" class="form-control" id="nama" name="nama" placeholder="isi nama" value="${$(e.relatedTarget).data('nama')}">
                             </div>
-                    <div class="mb-3">
-                            <label for="formulir" class="form-label">formulir</label>
-                            <input type="file" class="form-control dropify" data-default-file="${$(e.relatedTarget).data('formulir')}" id="formulir" name="formulir" placeholder="isi formulir">
-                    </div>
+                            <div class="mb-3">
+                                <label for="identitas" class="form-label">identitas</label>
+                                <input type="text" class="form-control" id="identitas" name="identitas" placeholder="isi identitas" value="${$(e.relatedTarget).data('identitas')}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="syarat" class="form-label">syarat</label>
+                                <input type="text" class="form-control" id="syarat" name="syarat" placeholder="isi syarat" value="${$(e.relatedTarget).data('syarat')}">
+                            </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -161,6 +200,21 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
 
             $('#modal-content').html(html);
             $('.dropify').dropify();
+
+        });
+
+        $('#syarat').on('shown.bs.modal', function(e) {
+            var html = `
+            <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Syarat</h5>
+                    <button type="button" class="btn-close" style="color:black;" data-bs-dismiss="modal" aria-label="Close">x</button>
+                </div>
+                <div class="modal-body">
+                    ${$(e.relatedTarget).data('syarat')}
+                </div>
+                `;
+
+            $('#modal-content-syarat').html(html);
 
         });
     </script>

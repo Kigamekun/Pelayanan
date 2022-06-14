@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
 use Illuminate\Support\Facades\{
     Hash,
     Auth,
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\{
     Response
 };
 
-class AktaController extends Controller
+class PindahDatangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,8 +21,8 @@ class AktaController extends Controller
      */
     public function index()
     {
-        return view('admin.akta', [
-            'data' => DB::table('akta')->get()
+        return view('admin.pindahdatang', [
+            'data' => DB::table('pindahdatang')->get()
         ]);
     }
 
@@ -46,8 +45,8 @@ class AktaController extends Controller
         if ($request->hasFile('formulir')) {
             $file = $request->file('formulir');
             $thumbname = time() . '-' . $file->getClientOriginalName();
-            $file->move(public_path() . '/akta' . '/', $thumbname);
-            DB::table('akta')->insert([
+            $file->move(public_path() . '/pindahdatang' . '/', $thumbname);
+            DB::table('pindahdatang')->insert([
                 'nama' => $request->nama,
                 'syarat' => $request->syarat,
                 'formulir' => $thumbname,
@@ -73,14 +72,14 @@ class AktaController extends Controller
         if ($request->hasFile('formulir')) {
             $file = $request->file('formulir');
             $thumbname = time() . '-' . $file->getClientOriginalName();
-            $file->move(public_path() . '/akta' . '/', $thumbname);
-            DB::table('akta')->where('id',$id)->update([
+            $file->move(public_path() . '/pindahdatang' . '/', $thumbname);
+            DB::table('pindahdatang')->where('id',$id)->update([
                 'nama' => $request->nama,
                 'syarat' => $request->syarat,
                 'formulir' => $thumbname,
             ]);
         }else {
-            DB::table('akta')->where('id',$id)->update([
+            DB::table('pindahdatang')->where('id',$id)->update([
                 'nama' => $request->nama,
                 'syarat' => $request->syarat,
 
@@ -101,14 +100,14 @@ class AktaController extends Controller
     public function destroy($id)
     {
 
-        DB::table('akta')->where('id',$id)->delete();
-        return redirect()->route('admin.akta.index')->with(['message'=>'Banner berhasil di delete','status'=>'success']);
+        DB::table('pindahdatang')->where('id',$id)->delete();
+        return redirect()->route('admin.pindahdatang.index')->with(['message'=>'Banner berhasil di delete','status'=>'success']);
     }
 
     public function download($id)
     {
 
-        $file = public_path() . "/akta/".DB::table('akta')->where('id',$id)->first()->formulir;
+        $file = public_path() . "/pindahdatang/".DB::table('pindahdatang')->where('id',$id)->first()->formulir;
         $headers = array('Content-Type: text/html',);
 
         return Response::download($file, 'formulir', $headers);

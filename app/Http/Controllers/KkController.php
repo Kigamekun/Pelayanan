@@ -29,13 +29,13 @@ class KkController extends Controller
 
 
         $this->validate($request, [
-            'nik' => 'required',
-            'no_kk' => 'required',
+            'nama' => 'required',
+            'syarat' => 'required',
         ]);
 
         DB::table('kk')->insert([
-            'nik' => $request->nik,
-            'no_kk' => $request->no_kk,
+            'nama' => $request->nama,
+            'syarat' => $request->syarat,
         ]);
 
         return redirect()->back()->with(['message'=>'Banner berhasil ditambahkan','status'=>'success']);
@@ -54,8 +54,8 @@ class KkController extends Controller
 
 
         DB::table('kk')->where('id',$id)->update([
-            'nik' => $request->nik,
-            'no_kk' => $request->no_kk,
+            'nama' => $request->nama,
+            'syarat' => $request->syarat,
         ]);
 
 

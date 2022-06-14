@@ -13,6 +13,13 @@
 
 @section('content')
     <div class="container-fluid py-4">
+
+        @if (Session::has('message'))
+        <br>
+        <div class="alert alert-{{ session('status') }} text-white">
+            {{ session('message') }}
+        </div>
+    @endif
         <div class="row">
             <div class="d-flex justify-content-end">
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createData">
@@ -57,7 +64,7 @@
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $item->syarat }}</span>
                                             </td>
-                                             <td class="align-middle">
+                                            <td class="align-middle">
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $item->formulir }}</span>
                                             </td>
@@ -71,6 +78,7 @@
                                                             data-bs-target="#updateData" data-id="{{ $item->id }}"
                                                             data-formulir="{{ url('akta/' . $item->formulir) }}"
                                                             data-nama="{{ $item->nama }}"
+                                                            data-syarat="{{ $item->syarat }}"
                                                             data-url="{{ route('admin.akta.update', ['id' => $item->id]) }}">
                                                             Update
                                                         </button>
