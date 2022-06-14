@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{AktaController,KkController,EKtpController};
@@ -28,6 +28,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('akta')->group(function () {
         Route::get('/', [AktaController::class,'index'])->name('akta.index');
         Route::get('/create', [AktaController::class,'create'])->name('akta.create');
+        Route::get('/download/{id}', [AktaController::class,'download'])->name('akta.download');
         Route::post('/store', [AktaController::class,'store'])->name('akta.store');
         Route::get('/edit/{id}', [AktaController::class,'edit'])->name('akta.edit');
         Route::post('/update/{id}', [AktaController::class,'update'])->name('akta.update');

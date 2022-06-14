@@ -5,6 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
+use Illuminate\Support\Facades\{
+    Hash,
+    Auth,
+    Mail,
+    Response
+};
+
 class AktaController extends Controller
 {
     /**
@@ -41,6 +49,7 @@ class AktaController extends Controller
             $file->move(public_path() . '/akta' . '/', $thumbname);
             DB::table('akta')->insert([
                 'nama' => $request->nama,
+                'syarat' => $request->syarat,
                 'formulir' => $thumbname,
             ]);
         }
@@ -67,6 +76,7 @@ class AktaController extends Controller
             $file->move(public_path() . '/akta' . '/', $thumbname);
             DB::table('akta')->where('id',$id)->update([
                 'nama' => $request->nama,
+                'syarat' => $request->syarat,
                 'formulir' => $thumbname,
             ]);
         }
@@ -87,5 +97,14 @@ class AktaController extends Controller
 
         DB::table('akta')->where('id',$id)->delete();
         return redirect()->route('admin.akta.index')->with(['message'=>'Banner berhasil di delete','status'=>'success']);
+    }
+
+    public function download($id)
+    {
+
+        $file = public_path() . "/akta/".DB::table('akta')->where('id',$id)->first()->formulir;
+        $headers = array('Content-Type: text/html',);
+
+        return Response::download($file, 'formulir', $headers);
     }
 }
