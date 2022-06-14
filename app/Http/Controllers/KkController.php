@@ -38,7 +38,7 @@ class KkController extends Controller
             'syarat' => $request->syarat,
         ]);
 
-        return redirect()->back()->with(['message'=>'Banner berhasil ditambahkan','status'=>'success']);
+        return redirect()->back()->with(['message'=>'KK berhasil ditambahkan','status'=>'success']);
     }
 
 
@@ -46,7 +46,7 @@ class KkController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Banner  $plant
+     * @param  \App\Models\KK  $plant
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -60,19 +60,19 @@ class KkController extends Controller
 
 
 
-        return redirect()->back()->with(['message'=>'Banner berhasil di update','status'=>'success']);
+        return redirect()->back()->with(['message'=>'KK berhasil di update','status'=>'success']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Banner  $plant
+     * @param  \App\Models\KK  $plant
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 
         DB::table('kk')->where('id',$id)->delete();
-        return redirect()->route('admin.kk.index')->with(['message'=>'Banner berhasil di delete','status'=>'success']);
+        return redirect()->route('admin.kk.index')->with(['message'=>'KK berhasil di delete','status'=>'success']);
     }
 }

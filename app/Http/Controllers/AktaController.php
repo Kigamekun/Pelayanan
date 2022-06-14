@@ -56,7 +56,7 @@ class AktaController extends Controller
 
 
 
-        return redirect()->back()->with(['message'=>'Banner berhasil ditambahkan','status'=>'success']);
+        return redirect()->back()->with(['message'=>'Akta berhasil ditambahkan','status'=>'success']);
     }
 
 
@@ -64,7 +64,7 @@ class AktaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Banner  $plant
+     * @param  \App\Models\Akta  $plant
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -89,20 +89,20 @@ class AktaController extends Controller
 
 
 
-        return redirect()->back()->with(['message'=>'Banner berhasil di update','status'=>'success']);
+        return redirect()->back()->with(['message'=>'Akta berhasil di update','status'=>'success']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Banner  $plant
+     * @param  \App\Models\Akta  $plant
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 
         DB::table('akta')->where('id',$id)->delete();
-        return redirect()->route('admin.akta.index')->with(['message'=>'Banner berhasil di delete','status'=>'success']);
+        return redirect()->route('admin.akta.index')->with(['message'=>'Akta berhasil di delete','status'=>'success']);
     }
 
     public function download($id)

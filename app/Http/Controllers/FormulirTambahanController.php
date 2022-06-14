@@ -52,7 +52,7 @@ class FormulirTambahanController extends Controller
 
 
 
-        return redirect()->back()->with(['message'=>'Banner berhasil ditambahkan','status'=>'success']);
+        return redirect()->back()->with(['message'=>'Formulir Tambahan berhasil ditambahkan','status'=>'success']);
     }
 
 
@@ -60,7 +60,7 @@ class FormulirTambahanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Banner  $plant
+     * @param  \App\Models\Formulir Tambahan  $plant
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -77,20 +77,20 @@ class FormulirTambahanController extends Controller
 
 
 
-        return redirect()->back()->with(['message'=>'Banner berhasil di update','status'=>'success']);
+        return redirect()->back()->with(['message'=>'Formulir Tambahan berhasil di update','status'=>'success']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Banner  $plant
+     * @param  \App\Models\Formulir Tambahan  $plant
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 
         DB::table('formulirtambahan')->where('id',$id)->delete();
-        return redirect()->route('admin.formulirtambahan.index')->with(['message'=>'Banner berhasil di delete','status'=>'success']);
+        return redirect()->route('admin.formulirtambahan.index')->with(['message'=>'Formulir Tambahan berhasil di delete','status'=>'success']);
     }
 
     public function download($id)

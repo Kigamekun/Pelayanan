@@ -41,7 +41,7 @@ class EKtpController extends Controller
             'syarat' => $request->syarat,
         ]);
 
-        return redirect()->back()->with(['message'=>'Banner berhasil ditambahkan','status'=>'success']);
+        return redirect()->back()->with(['message'=>'EKTP berhasil ditambahkan','status'=>'success']);
     }
 
 
@@ -49,7 +49,7 @@ class EKtpController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Banner  $plant
+     * @param  \App\Models\EKTP  $plant
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -64,19 +64,19 @@ class EKtpController extends Controller
 
 
 
-        return redirect()->back()->with(['message'=>'Banner berhasil di update','status'=>'success']);
+        return redirect()->back()->with(['message'=>'EKTP berhasil di update','status'=>'success']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Banner  $plant
+     * @param  \App\Models\EKTP  $plant
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 
         DB::table('ektp')->where('id',$id)->delete();
-        return redirect()->route('admin.ektp.index')->with(['message'=>'Banner berhasil di delete','status'=>'success']);
+        return redirect()->route('admin.ektp.index')->with(['message'=>'EKTP berhasil di delete','status'=>'success']);
     }
 }
